@@ -1,17 +1,14 @@
-const { Pool } = require("pg");
+// config/db.js
+require('dotenv').config();
+const { Pool } = require('pg');
 
 const pool = new Pool({
-  host: "xyzcompany.supabase.co",  // انسخ host من Supabase
-  user: "postgres",
-  password: "2312617@BBBBB@",     // كلمة السر اللي أنشأتها
-  database: "postgres",
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
 });
 
-pool.connect(err => {
-  if (err) console.error("❌ Database Connection Error:", err);
-  else console.log("✅ Supabase Connected");
-});
+pool.connect()
+  .then(() => console.log('✅ Supabase Database Connected'))
+  .catch(err => console.error('❌ Database connection error:', err));
 
 module.exports = pool;
